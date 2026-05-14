@@ -1,5 +1,5 @@
 context:
-  version: "0.14.0"
+  version: "0.14.1"
 
 package:
   name: tea
@@ -7,12 +7,16 @@ package:
 
 source:
   - url: https://gitea.com/gitea/tea/archive/v${{ version }}.tar.gz
-    sha256: f509de217ac0e57491ffdab2750516e8c505780881529ee703b9d0c86cc652a3
+    sha256: 848b6b2fafa270fa77b4e278d521bfcc16d2f721c45ac90f08f5b16dc630c3f9
     target_directory: src
   - url: https://github.com/go-authgate/authgate/raw/main/LICENSE
     sha256: 16d8778aef2c07d03e50c7933b3ce7af60652d59ba5a30a4f978b6cabe8dcf60
     target_directory: go-authgate-sdk-go-license
     file_name: LICENSE
+  - url: https://raw.githubusercontent.com/alecthomas/chroma/refs/heads/master/COPYING
+    sha256: 13654b052f885cb3fa47d7343e13975d9c8a64c3bcd84993c35d5eb01f22b23f
+    target_directory: alecthomas-chroma
+    file_name: COPYING
   - if: win
     then:
       url: https://github.com/mattn/go-localereader/raw/master/LICENSE
@@ -24,7 +28,7 @@ build:
   number: 0
   script:
     - cd src
-    - go-licenses save . --save_path ../library_licenses --ignore github.com/go-authgate/sdk-go/credstore ${{ "--ignore github.com/mattn/go-localereader" if win }}
+    - go-licenses save . --save_path ../library_licenses --ignore github.com/go-authgate/sdk-go/credstore --ignore github.com/alecthomas/chroma ${{ "--ignore github.com/mattn/go-localereader" if win }}
     - if: win
       then:
         - mkdir ..\library_licenses\github.com\mattn\go-localereader
@@ -57,6 +61,7 @@ about:
     - src/LICENSE
     - library_licenses/
     - go-authgate-sdk-go-license/LICENSE
+    - alecthomas-chroma/COPYING
   documentation: https://gitea.com/gitea/tea
   repository: https://gitea.com/gitea/tea
 
